@@ -15,7 +15,7 @@ class TransactionFactory extends Factory
             'value' => fake()->randomFloat(2, 0.01, 10000000),
             'payer_id' => fake()->randomDigit(),
             'payee_id' => fake()->randomDigit(),
-            'status' => fake()->randomElement(['completed', 'reversed', 'canceled']),
+            'status' => 'in progress',
         ];
     }
 }

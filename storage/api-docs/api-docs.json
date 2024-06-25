@@ -1,8 +1,8 @@
 {
     "openapi": "3.0.0",
     "info": {
-        "title": "Transactions API",
-        "description": "API Documentation for Transactions",
+        "title": "Wallet App API",
+        "description": "API documentation with Swagger",
         "version": "1.0.0"
     },
     "paths": {
@@ -11,21 +11,11 @@
                 "tags": [
                     "Transactions"
                 ],
-                "summary": "Get all transactions",
+                "summary": "List all transactions",
                 "operationId": "eb94eb985d1e57150ce893ab651750cb",
                 "responses": {
                     "200": {
-                        "description": "Successful operation",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "type": "array",
-                                    "items": {
-                                        "$ref": "#/components/schemas/Transaction"
-                                    }
-                                }
-                            }
-                        }
+                        "description": "Successful operation"
                     },
                     "404": {
                         "description": "No transactions found"
@@ -42,26 +32,41 @@
                 "summary": "Create a new transaction",
                 "operationId": "cce56c116ea65120c279986f0865f206",
                 "requestBody": {
-                    "description": "Transaction object",
                     "required": true,
                     "content": {
                         "application/json": {
                             "schema": {
-                                "$ref": "#/components/schemas/CreateTransactionDTO"
+                                "properties": {
+                                    "value": {
+                                        "description": "Transaction amount to be sent",
+                                        "type": "number",
+                                        "format": "float",
+                                        "default": 100
+                                    },
+                                    "payer_id": {
+                                        "description": "Id of who is sending the amount in this transaction",
+                                        "type": "integer",
+                                        "default": 4
+                                    },
+                                    "payee_id": {
+                                        "description": "Id of who is receiving the value in this transaction",
+                                        "type": "integer",
+                                        "default": 15
+                                    },
+                                    "status": {
+                                        "description": "Transaction status",
+                                        "type": "string",
+                                        "default": "in progress"
+                                    }
+                                },
+                                "type": "object"
                             }
                         }
                     }
                 },
                 "responses": {
                     "201": {
-                        "description": "Transaction created successfully",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/Transaction"
-                                }
-                            }
-                        }
+                        "description": "Transaction created successfully"
                     },
                     "500": {
                         "description": "Internal server error"
@@ -74,13 +79,12 @@
                 "tags": [
                     "Transactions"
                 ],
-                "summary": "Get a transaction by ID",
+                "summary": "Get transaction by ID",
                 "operationId": "f71625ec711512ca4bb2a8f96562b14b",
                 "parameters": [
                     {
                         "name": "id",
                         "in": "path",
-                        "description": "Transaction ID",
                         "required": true,
                         "schema": {
                             "type": "integer"
@@ -89,14 +93,7 @@
                 ],
                 "responses": {
                     "200": {
-                        "description": "Successful operation",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/Transaction"
-                                }
-                            }
-                        }
+                        "description": "Successful operation"
                     },
                     "404": {
                         "description": "Transaction not found"
@@ -105,73 +102,6 @@
                         "description": "Internal server error"
                     }
                 }
-            }
-        }
-    },
-    "components": {
-        "schemas": {
-            "CreateTransactionDTO": {
-                "title": "Create Transaction DTO",
-                "required": [
-                    "value",
-                    "payer_id",
-                    "payee_id",
-                    "status"
-                ],
-                "properties": {
-                    "value": {
-                        "description": "Transaction value",
-                        "type": "number",
-                        "format": "float"
-                    },
-                    "payer_id": {
-                        "description": "Payer ID",
-                        "type": "integer"
-                    },
-                    "payee_id": {
-                        "description": "Payee ID",
-                        "type": "integer"
-                    },
-                    "status": {
-                        "description": "Transaction status",
-                        "type": "string"
-                    }
-                },
-                "type": "object"
-            },
-            "Transaction": {
-                "title": "Transaction",
-                "required": [
-                    "id",
-                    "value",
-                    "payer_id",
-                    "payee_id",
-                    "status"
-                ],
-                "properties": {
-                    "id": {
-                        "description": "Transaction ID",
-                        "type": "integer"
-                    },
-                    "value": {
-                        "description": "Transaction value",
-                        "type": "number",
-                        "format": "float"
-                    },
-                    "payer_id": {
-                        "description": "Payer ID",
-                        "type": "integer"
-                    },
-                    "payee_id": {
-                        "description": "Payee ID",
-                        "type": "integer"
-                    },
-                    "status": {
-                        "description": "Transaction status",
-                        "type": "string"
-                    }
-                },
-                "type": "object"
             }
         }
     }

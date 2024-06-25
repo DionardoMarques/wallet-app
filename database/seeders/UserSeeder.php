@@ -9,6 +9,6 @@ class UserSeeder extends Seeder
 {
     public function run(): void
     {
-        User::factory(3)->hasWallet()->create();
+        User::factory(20)->hasWallet()->create();
     }
 }

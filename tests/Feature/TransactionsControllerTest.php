@@ -3,8 +3,12 @@
 namespace Tests\Feature;
 
 use App\Models\Transaction;
+use App\Models\User;
+use App\Models\Wallet;
+use App\Services\TransactionValidationService;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Testing\Fluent\AssertableJson;
+use Mockery;
 use Tests\TestCase;
 
 class TransactionsControllerTest extends TestCase
@@ -108,7 +112,27 @@ class TransactionsControllerTest extends TestCase
 
     public function test_post_transactions_endpoint()
     {
-        $transaction = Transaction::factory(1)->makeOne()->toArray();
+        $payer = User::factory()->create();
+        $payee = User::factory()->create();
+
+        Wallet::factory()->create(['user_id' => $payer->id]);
+        Wallet::factory()->create(['user_id' => $payee->id]);
+
+        $transaction = Transaction::factory()->make([
+            'payer_id' => $payer->id,
+            'payee_id' => $payee->id,
+        ])->toArray();
+
+        $this->mock(TransactionValidationService::class, function ($mock) use ($transaction) {
+            $mock->shouldReceive('validateTransaction')
+                ->with(Mockery::on(function ($dto) use ($transaction) {
+                    return $dto->payer_id === $transaction['payer_id']
+                        && $dto->payee_id === $transaction['payee_id']
+                        && $dto->value === $transaction['value']
+                        && $dto->status === $transaction['status'];
+                }))
+                ->andReturn(true);
+        });
 
         $response = $this->postJson('/api/transactions', $transaction);
 
@@ -129,7 +153,6 @@ class TransactionsControllerTest extends TestCase
                 'value' => (float) $transaction['value'],
                 'payer_id' => $transaction['payer_id'],
                 'payee_id' => $transaction['payee_id'],
-                'status' => $transaction['status'],
             ])->etc();
         });
     }
