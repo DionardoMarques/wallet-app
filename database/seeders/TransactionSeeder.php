@@ -2,13 +2,13 @@
 
 namespace Database\Seeders;
 
-use App\Models\User;
+use App\Models\Transaction;
 use Illuminate\Database\Seeder;
 
-class UserSeeder extends Seeder
+class TransactionSeeder extends Seeder
 {
     public function run(): void
     {
-        User::factory(3)->hasWallet()->create();
+        Transaction::factory(3)->create();
     }
 }

@@ -1,0 +1,178 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+        "title": "Transactions API",
+        "description": "API Documentation for Transactions",
+        "version": "1.0.0"
+    },
+    "paths": {
+        "/api/transactions": {
+            "get": {
+                "tags": [
+                    "Transactions"
+                ],
+                "summary": "Get all transactions",
+                "operationId": "eb94eb985d1e57150ce893ab651750cb",
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/Transaction"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "No transactions found"
+                    },
+                    "500": {
+                        "description": "Internal server error"
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "Transactions"
+                ],
+                "summary": "Create a new transaction",
+                "operationId": "cce56c116ea65120c279986f0865f206",
+                "requestBody": {
+                    "description": "Transaction object",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/CreateTransactionDTO"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Transaction created successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Transaction"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Internal server error"
+                    }
+                }
+            }
+        },
+        "/api/transactions/{id}": {
+            "get": {
+                "tags": [
+                    "Transactions"
+                ],
+                "summary": "Get a transaction by ID",
+                "operationId": "f71625ec711512ca4bb2a8f96562b14b",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Transaction ID",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Transaction"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Transaction not found"
+                    },
+                    "500": {
+                        "description": "Internal server error"
+                    }
+                }
+            }
+        }
+    },
+    "components": {
+        "schemas": {
+            "CreateTransactionDTO": {
+                "title": "Create Transaction DTO",
+                "required": [
+                    "value",
+                    "payer_id",
+                    "payee_id",
+                    "status"
+                ],
+                "properties": {
+                    "value": {
+                        "description": "Transaction value",
+                        "type": "number",
+                        "format": "float"
+                    },
+                    "payer_id": {
+                        "description": "Payer ID",
+                        "type": "integer"
+                    },
+                    "payee_id": {
+                        "description": "Payee ID",
+                        "type": "integer"
+                    },
+                    "status": {
+                        "description": "Transaction status",
+                        "type": "string"
+                    }
+                },
+                "type": "object"
+            },
+            "Transaction": {
+                "title": "Transaction",
+                "required": [
+                    "id",
+                    "value",
+                    "payer_id",
+                    "payee_id",
+                    "status"
+                ],
+                "properties": {
+                    "id": {
+                        "description": "Transaction ID",
+                        "type": "integer"
+                    },
+                    "value": {
+                        "description": "Transaction value",
+                        "type": "number",
+                        "format": "float"
+                    },
+                    "payer_id": {
+                        "description": "Payer ID",
+                        "type": "integer"
+                    },
+                    "payee_id": {
+                        "description": "Payee ID",
+                        "type": "integer"
+                    },
+                    "status": {
+                        "description": "Transaction status",
+                        "type": "string"
+                    }
+                },
+                "type": "object"
+            }
+        }
+    }
+}
