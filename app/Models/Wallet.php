@@ -12,7 +12,7 @@ class Wallet extends Model
 
     protected $fillable = [
         'user_id',
-        'balance'
+        'balance',
     ];
 
     public function user(): BelongsTo

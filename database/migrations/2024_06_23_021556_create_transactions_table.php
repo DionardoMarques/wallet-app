@@ -13,7 +13,7 @@ return new class extends Migration
             $table->decimal('value', total: 10, places: 2);
             $table->integer('payer_id');
             $table->integer('payee_id');
-            $table->string('status');
+            $table->string('status')->default('in progress');
             $table->timestamps();
         });
     }
