@@ -54,4 +54,4 @@ Ainda dentro do diretório do projeto, por exemplo: `seu_diretorio/wallet-app`
 # Documentação API
 Após estar com o projeto rodando, é possível acessar o Swagger para a realização de requisições aos endpoints.
 
-[Rotas](http://localhost/api/documentation)
+[Endpoints wallet-app](http://localhost/api/documentation)
